@@ -12,15 +12,21 @@ app.use(bodyParser.json())
 app.post('/visibilidad', function (req, res) {
   console.log(req.body.ref)
   console.log(req.body.sender.login)
-  deploy(res)
+  deploy(res,'./deploy.sh')
+});
+
+app.post('/api', function (req, res) {
+  console.log(req.body.ref)
+  console.log(req.body.sender.login)
+  deploy(res,'./deploy-api.sh')
 });
 
 app.listen(3000, function () {
   console.log('Example app listening on port 3000!');
 });
 
-function deploy(res){
-  childProcess.exec('./deploy.sh', function(err, stdout, stderr){
+function deploy(res, script){
+  childProcess.exec(script, function(err, stdout, stderr){
       if (err) {
         console.error(err);
         return res.sendStatus(500);
